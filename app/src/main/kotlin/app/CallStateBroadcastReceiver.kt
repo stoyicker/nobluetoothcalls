@@ -16,12 +16,14 @@ internal class CallStateBroadcastReceiver : BroadcastReceiver() {
                 "CallStateBroadcastReceiver", Context.MODE_PRIVATE)
         lastState = sharedPreferences.getInt("lastState", TelephonyManager.CALL_STATE_IDLE)
 
-        onCallStateChanged(when (intent.extras.getString(TelephonyManager.EXTRA_STATE)) {
-            TelephonyManager.EXTRA_STATE_IDLE -> TelephonyManager.CALL_STATE_IDLE
-            TelephonyManager.EXTRA_STATE_OFFHOOK -> TelephonyManager.CALL_STATE_OFFHOOK
-            TelephonyManager.EXTRA_STATE_RINGING -> TelephonyManager.CALL_STATE_RINGING
-            else -> throw IllegalStateException("Unrecognized TelephonyManager EXTRA state")
-        })
+        if (intent.action != "android.intent.action.NEW_OUTGOING_CALL") {
+            onCallStateChanged(when (intent.extras.getString(TelephonyManager.EXTRA_STATE)) {
+                TelephonyManager.EXTRA_STATE_IDLE -> TelephonyManager.CALL_STATE_IDLE
+                TelephonyManager.EXTRA_STATE_OFFHOOK -> TelephonyManager.CALL_STATE_OFFHOOK
+                TelephonyManager.EXTRA_STATE_RINGING -> TelephonyManager.CALL_STATE_RINGING
+                else -> throw IllegalStateException("Unrecognized TelephonyManager EXTRA state")
+            })
+        }
     }
 
     private fun onCalling() {
