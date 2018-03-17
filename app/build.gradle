@@ -45,6 +45,19 @@ android {
     sourceSets.forEach {
         it.java.srcDirs = ["src/$it.name/kotlin"]
     }
+    signingConfigs {
+        release {
+            storeFile new File("$rootProject.rootDir/nobluetoothcalls.keystore")
+            storePassword(new File("$rootProject.rootDir/keystore.pwd").text.trim())
+            keyAlias("nobluetoothcalls")
+            keyPassword(new File("$rootProject.rootDir/key.pwd").text.trim())
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
 }
 repositories {
     jcenter()
