@@ -2,11 +2,20 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.stoyicker.nobluetoothcalls">
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
     <application
         android:allowBackup="false"
         android:icon="@null"
         android:label="@string/app_label">
-
+        <receiver
+            android:name="app.CallStateBroadcastReceiver"
+            android:icon="@null"
+            android:label="@string/call_state_receiver">
+            <intent-filter>
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+            </intent-filter>
+        </receiver>
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1" />
